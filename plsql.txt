@@ -1,0 +1,138 @@
+-- procedure
+
+SQL> create or replace procedure practice1    
+  2  as 
+  3  begin
+  4  null;
+  5  end;
+  6  /
+
+Procedure created.
+
+SQL> create or replace procedure practice
+  2  as 
+  3  begin
+  4  dbms_output.put_line('Hello World');
+  5  end;
+  6  /
+
+SQL> call practice();
+Hello World
+
+
+SQL> create or replace procedure add1(a in number, b in number)  -- to add 2 numbers
+  2  is 
+  3  c number;
+  4  begin
+  5  c := a+b;
+  6  dbms_output.put_line(c);
+  7  end add1 ;
+  8  /
+
+Procedure created.  
+
+SQL> call add1(3,2);			//1 way
+5			
+
+Call completed.
+
+SQL> exec add1(3,2);			//2 way
+5
+
+PL/SQL procedure successfully completed.
+
+SQL> begin				//3 way
+  2  add1(2,3);
+  3  add1(3,2);
+  4  end;
+  5  /
+5
+5
+
+PL/SQL procedure successfully completed.
+
+SQL> drop procedure add1;          //proc dropped
+
+Procedure dropped.
+
+SQL> create or replace procedure sq_1(a in integer)  -- to find sqroot and square
+  2  is 
+  3  b integer ;
+  4  c integer ;
+  5  begin
+  6   b:=a**a ;
+  7   c := a*0.5 ; 
+  8  dbms_output.put_line(b);
+  9   dbms_output.put_line(c);
+ 10  end sq_1 ;
+ 11  /
+
+Procedure created.
+
+SQL> call sq_1(2);
+4
+1
+
+Call completed.
+
+-- Function
+SQL> create or replace function add_fun(a in number,b in number)
+  2  return number
+  3  is 
+  4  c number ;
+  5  begin
+  6  c:= a+b;
+  7  return c;
+  8  end add_fun;
+  9  /
+
+Function created.
+
+SQL> select add_fun(4,3) from dual;             //ouput 1 way
+
+ADD_FUN(4,3)
+------------
+           7
+
+
+SQL>  declare					//2nd way using procedure
+  2   x number;
+  3   y number;
+  4   z number ;
+  5   begin
+  6   x := 3;
+  7   y:= 5;
+  8   z:= add_fun(x,y);
+  9   dbms_output.put_line('Addition: '||z);
+ 10   end ;
+ 11   /
+Addition: 8
+
+PL/SQL procedure successfully completed.
+
+SQL> create table emp2(emp_id int, name varchar(20));     -- Tables and func
+
+Table created.
+SQL>  insert into emp2 values(201,'alice');
+
+1 row created.
+
+SQL> insert into emp2 values(202,'bob');
+
+1 row created.
+SQL>  create or replace function fun_emp
+  2   return integer
+  3   as 
+  4   total integer;
+  5  begin
+  6  select count(emp_id) into total from emp2;
+  7  return total;
+  8  end fun_emp;
+  9  /
+
+Function created.
+SQL> select fun_emp from dual;
+
+   FUN_EMP
+----------
+         2
